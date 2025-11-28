@@ -1,0 +1,20 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use {{ event }};
+
+class {{ class }}
+{
+    public function __construct()
+    {
+        //
+    }
+
+    public function handle({{ event }} $event): void
+    {
+        // Handle the event
+    }
+}

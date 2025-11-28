@@ -1,0 +1,15 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Notifications\Notification;
+
+class {{ class }}
+{
+    public function send($notifiable, Notification $notification): void
+    {
+        // Example: send SMS or push notification
+        // $message = $notification->toCustomChannel($notifiable);
+        // Send logic here
+    }
+}

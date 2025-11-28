@@ -1,0 +1,38 @@
+<?php
+
+namespace {{ namespace }};
+
+use Modules\{{ module }}\src\Models\{{ model }};
+
+class {{ observer }}
+{
+    public function creating({{ model }} $model)
+    {
+        //
+    }
+
+    public function created({{ model }} $model)
+    {
+        //
+    }
+
+    public function updating({{ model }} $model)
+    {
+        //
+    }
+
+    public function updated({{ model }} $model)
+    {
+        //
+    }
+
+    public function deleting({{ model }} $model)
+    {
+        //
+    }
+
+    public function deleted({{ model }} $model)
+    {
+        //
+    }
+}

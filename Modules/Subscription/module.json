@@ -1,0 +1,5 @@
+{
+    "name": "Subscription",
+    "namespace": "Modules\\Subscription\\src",
+    "provider": "Modules\\Subscription\\src\\Providers\\SubscriptionServiceProvider"
+}

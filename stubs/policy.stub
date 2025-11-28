@@ -1,0 +1,33 @@
+<?php
+
+namespace {{ namespace }};
+
+{{ modelImport }}
+
+class {{ class }}
+{
+    public function viewAny(?\App\Models\User $user): bool
+    {
+        return true;
+    }
+
+    public function view(?\App\Models\User $user, {{ model }} ${{ modelVariable }}): bool
+    {
+        return true;
+    }
+
+    public function create(?\App\Models\User $user): bool
+    {
+        return true;
+    }
+
+    public function update(?\App\Models\User $user, {{ model }} ${{ modelVariable }}): bool
+    {
+        return true;
+    }
+
+    public function delete(?\App\Models\User $user, {{ model }} ${{ modelVariable }}): bool
+    {
+        return true;
+    }
+}
