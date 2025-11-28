@@ -101,7 +101,7 @@ All tests pass:
 ```
 OK (10 tests, 30 assertions)
 ```
-
+![Feature and Unit Test](docs/test-debug.JPG)
 ---
 
 ## Screenshots
