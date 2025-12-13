@@ -12,61 +12,72 @@ class SubscriptionSeeder extends Seeder
 {
     public function run(): void
     {
+
         $user = User::first() ?? User::factory()->create([
             'name' => 'Test User',
             'email' => 'admin@alaaezz.com',
             'password' => bcrypt('password123'),
             'role' => 'admin',
         ]);
+        // 1️⃣ Users
+        $users = User::factory()->count(50)->create();
 
-        $plan = Plan::first() ?? Plan::create([
-            'name' => 'Test Plan',
-            'price' => 10,
-            'duration_days' => 30,
-        ]);
+        // 2️⃣ Plans
+        $plans = collect(range(1, 5))->map(function ($i) {
+            return Plan::create([
+                'name' => "Plan {$i}",
+                'price' => $i * 10,
+                'duration_days' => 30,
+            ]);
+        });
 
-        $user = User::first() ?? User::factory()->create();
+        // 3️⃣ Subscriptions
+        foreach ($users as $user) {
+            foreach ($plans as $plan) {
 
-        // 1️⃣ Trial expired
-        Subscription::create([
-            'user_id' => $user->id,
-            'plan_id' => $plan->id,
-            'type' => 'trial',
-            'status' => 'active',
-            'trial_end_at' => Carbon::now()->subMinutes(1),
-            'started_at' => Carbon::now()->subDays(7),
-        ]);
+                $rand = rand(1, 100);
 
-        // 2️⃣ Trial active
-        Subscription::create([
-            'user_id' => $user->id,
-            'plan_id' => $plan->id,
-            'type' => 'trial',
-            'status' => 'active',
-            'trial_end_at' => Carbon::now()->addDays(3),
-            'started_at' => Carbon::now(),
-        ]);
+                // 🟢 Paid Active (60%)
+                if ($rand <= 60) {
+                    Subscription::create([
+                        'user_id' => $user->id,
+                        'plan_id' => $plan->id,
+                        'type' => 'paid',
+                        'status' => 'active',
+                        'started_at' => Carbon::now()->subDays(rand(1, 20)),
+                        'ended_at' => null,
+                        'trial_end_at' => null,
+                    ]);
+                }
 
-        // 3️⃣ Paid active
-        Subscription::create([
-            'user_id' => $user->id,
-            'plan_id' => $plan->id,
-            'type' => 'paid',
-            'status' => 'active',
-            'trial_end_at' => null,
-            'started_at' => Carbon::now()->subDays(10),
-            'ended_at' => null,
-        ]);
+                // 🟡 Trial Active (20%)
+                elseif ($rand <= 80) {
+                    Subscription::create([
+                        'user_id' => $user->id,
+                        'plan_id' => $plan->id,
+                        'type' => 'trial',
+                        'status' => 'active',
+                        'started_at' => Carbon::now()->subDays(rand(1, 3)),
+                        'trial_end_at' => Carbon::now()->addDays(rand(1, 5)),
+                        'ended_at' => null,
+                    ]);
+                }
 
-        // 4️⃣ Paid expired
-        Subscription::create([
-            'user_id' => $user->id,
-            'plan_id' => $plan->id,
-            'type' => 'paid',
-            'status' => 'expired',
-            'trial_end_at' => null,
-            'started_at' => Carbon::now()->subDays(30),
-            'ended_at' => Carbon::now()->subDays(1),
-        ]);
+                // 🔴 Expired (20%)
+                else {
+                    $isTrial = rand(0, 1);
+
+                    Subscription::create([
+                        'user_id' => $user->id,
+                        'plan_id' => $plan->id,
+                        'type' => $isTrial ? 'trial' : 'paid',
+                        'status' => 'expired',
+                        'started_at' => Carbon::now()->subDays(40),
+                        'trial_end_at' => $isTrial ? Carbon::now()->subDays(30) : null,
+                        'ended_at' => Carbon::now()->subDays(10),
+                    ]);
+                }
+            }
+        }
     }
 }
